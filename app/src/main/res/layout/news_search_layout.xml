@@ -5,7 +5,7 @@
         android:background="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <SearchView
+    <android.widget.SearchView
             android:id="@+id/search_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -15,5 +15,5 @@
             android:focusable="false"
             app:queryBackground="@android:color/background_light"
             app:submitBackground="@android:color/background_dark">
-    </SearchView>
+    </android.widget.SearchView>
 </LinearLayout>

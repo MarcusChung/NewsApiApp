@@ -61,8 +61,8 @@ class NewsFetchingAsyncTask (private val q : String? = null, private val newsFet
         val formatter = SimpleDateFormat("yyyy-MM-dd",  Locale.getDefault())
         val dateAsString = formatter.format(date)
 
-        val myurl = "https://newsapi.org/v2/everything?q=$q&from=$dateAsString&sortBy=publishedAt&apiKey=YOUR_API_KEY&language=en"
-
+        val myurl = "https://newsapi.org/v2/everything?q=$q&from=$dateAsString&sortBy=publishedAt&apiKey=533b4be576e042dfa2d98299b7fb6f2e&language=en"
+val myelonurl = "https://newsapi.org/v2/everything?q=tesla&from=2022-11-20&sortBy=publishedAt&apiKey=533b4be576e042dfa2d98299b7fb6f2e"
         val s = this.sendGet(myurl)
 
         return s
@@ -71,7 +71,6 @@ class NewsFetchingAsyncTask (private val q : String? = null, private val newsFet
     override fun onPostExecute(result: String?) {
 
         if ( result != null ){
-
             parseReturnedJsonData(result)
         }
     }
@@ -79,18 +78,20 @@ class NewsFetchingAsyncTask (private val q : String? = null, private val newsFet
 
     private fun parseReturnedJsonData(s: String) {
 
-
         val p = Gson()
         val rt = p.fromJson(s, NewsResult::class.java)
-
-        if ( rt.status == "ok" ){
-
-            newsFetchedListener?.whenNewsFetchedSuccessfully(rt.articles)
-        }
-        else {
-
+       //parse returned json data
+        try {
+            if (rt.status == "ok") {
+                newsFetchedListener?.whenNewsFetchedSuccessfully(rt.articles)
+            } else {
+                newsFetchedListener?.whenNewsFetchedOnError("Error")
+            }
+        } catch (e: Exception) {
             newsFetchedListener?.whenNewsFetchedOnError("Error")
         }
+
+
     }
 
 }
